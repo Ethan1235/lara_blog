@@ -18,12 +18,8 @@ class SessionsController extends Controller
             'only' => ['store']
         ]);
     }
-    public function __construct()
-    {
-        $this->middleware('guest', [
-            'only' => ['create']
-        ]);
-    }
+
+
     
     public function create()
     {

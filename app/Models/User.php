@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use Illuminate\Support\Str;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -33,6 +35,15 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->activation_token = Str::random(10);
+        });
+    }
+
     /**
      * The attributes that should be cast.
      *
@@ -42,6 +53,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+
     public function gravatar($size = '100')
     {
         // $hash = md5(strtolower(trim($this->attributes['email'])));
@@ -50,5 +63,8 @@ class User extends Authenticatable
         // $hash = $this-> profile;
         return "/picture/profile.jpg";
     }
+
+
+
 
 }
